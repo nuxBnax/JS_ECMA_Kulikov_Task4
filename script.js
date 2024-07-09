@@ -17,12 +17,14 @@ async function getUserData(ID) {
 		if (item.data.id !== ID) {
 			throw new Error(`Пользователя с ID:${ID} не существует`);
 		}
-		return console.log(item.data);
+		console.log(item.data);
 	}).catch((error) => {
 		alert(`Ахтунг, ошибка ${error.message}`);
 	})
 }
 getUserData(2);
+
+
 // Задание 2. Отправка данных на сервер.
 // Реализуйте функцию saveUserData, которая принимает объект с данными о пользователе в качестве аргумента и использует fetch для отправки этих данных на удаленный сервер для сохранения. Функция должна возвращать промис, который разрешается, если данные успешно отправлены, или отклоняется в случае ошибки.
 // *Подсказка *
@@ -43,22 +45,21 @@ getUserData(2);
 
 
 async function saveUserData(userData) {
-	const url = 'https://reqres.in/api/users';
-	let response = await fetch(url, {
-		method: 'POST',
-		headers: {
-		  'Content-Type': 'application/json;charset=utf-8'
-		},
-		body: JSON.stringify(userData)
-	  });
-	if (!response.ok) {
+	try {
+		const url = 'https://reqres.in/api/users';
+		let response = await fetch(url, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json;charset=utf-8'
+			},
+			body: JSON.stringify(userData)
+		});
+		let result = await response.json();
+		console.log(result);
+	} catch (error) {
 		throw new Error('Ошибка со стороны сервера');
-	};
-	let result = await response.json();
-	console.log(result);
+	}
 }
-
-
 
 const user = {
 	"name": "John Doe",
@@ -71,7 +72,6 @@ saveUserData(user)
 	.catch(error => {
 		console.log(error.message);
 	});
-
 
 
 // Задание 3. Изменение стиля элемента через заданное время (выполняем, если знакомы с DOM).
@@ -93,4 +93,4 @@ function changeStyleDelayed(elemId, delay) {
 
 	}, delay);
 }
-changeStyleDelayed('myElement', 2000);
+changeStyleDelayed('myElement', 2000); 
